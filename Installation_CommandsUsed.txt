@@ -1,0 +1,6 @@
+TO CREATE ORGANIZATION
+git url @mramsudheer-> settings(user navigation menu-on top right side) -> Organizations -> New Organization -> Create free organization
+	Name: mramsudheer-actions
+	Contact email:
+	Mypersonal Account
+	skip this setup
