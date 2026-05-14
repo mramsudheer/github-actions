@@ -1,0 +1,16 @@
+name: GitHub Environment
+on:
+  workflow_dispatch:
+jobs:
+  GitHub_Env:
+    runs-on: ubuntu-latest
+    steps:
+      - name: GitHub Env
+        run: |
+          echo "course=DevOps" >> $GITHUB_ENV
+          echo "duration=5months" >> $GITHUB_ENV
+
+      - name: Print GitHub Env Values
+        run: |
+          echo "Course: $course"
+          echo "Duration: $duration"
