@@ -3,7 +3,7 @@ on: [push] # Triggers the workflow on every push to the repository
 jobs:
   # Job name
   feature-pipeline:
-    # 'uses is nothing but shared library'
+    # 'uses' is nothing but shared library
     uses: mramsudheer/reusableWorkflows/.github/workflows/nodejs-feature-pipeline.yaml@main
     with:
       project: 'roboshop'
