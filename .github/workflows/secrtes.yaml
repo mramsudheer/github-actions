@@ -9,5 +9,7 @@ jobs:
         run: |
           echo "DB User Name: ${{ secrets.DB_USER }}"
           echo "DB Password: ${{ secrets.DB_PASSWORD }}"
+
+      - name: Fetch Variables From Repo
+        run: |
           echo "DB URL: ${{ vars.DB_URL }}" 
-      
