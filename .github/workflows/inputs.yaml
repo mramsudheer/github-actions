@@ -1,4 +1,5 @@
 name: Input Demo
+run-name: "Manual Run by @${{ github.actor }} - Log: ${{ inputs.logLevel }}"
 on: 
   workflow_dispatch:
     inputs:
@@ -15,7 +16,6 @@ on:
         description: 'Test Senario Tags'
         required: false
         type: boolean
-    
 jobs:
   Trigger:
     runs-on: ubuntu-latest
