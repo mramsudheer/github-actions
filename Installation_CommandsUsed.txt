@@ -4,3 +4,12 @@ git url @mramsudheer-> settings(user navigation menu-on top right side) -> Organ
 	Contact email:
 	Mypersonal Account
 	skip this setup
+
+TO CREATE SECRETS
+git url -> settings -> Secrets and variables -> Actions -> Actions secrets and variables -> secrets
+	Repository secrets -> New repository secret
+			Name : DB_USER
+			secret: admin
+			Repository secrets -> New repository secret
+			Name : DB_PASSWORD
+			secret: admin123

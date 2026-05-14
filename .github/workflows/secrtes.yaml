@@ -1,0 +1,12 @@
+name: "Fetch Secrets"
+on:
+  workflow_dispatch:
+jobs:
+  Fetch_Repo_Secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Secrets From Repo
+        run: |
+          echo "DB User Name: ${{ secrets.DB_USER }}"
+          echo "DB Password: ${{ secrets.DB_PASSWORD }}"
+      
