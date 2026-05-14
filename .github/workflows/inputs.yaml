@@ -1,4 +1,11 @@
 name: Input Demo
+# When you omit the run-name property in a GitHub Actions workflow, 
+# GitHub falls back to a default naming system based on how the workflow was triggered
+# Because you triggered it via a manual click (workflow_dispatch), 
+# GitHub names the run after the Commit Message of the latest commit 
+# on the branch you ran it from.Therefore, 
+# the last time you (or someone else) saved code to that branch, 
+# the git commit message was set to "Input Workflow test"
 run-name: "Manual Run by @${{ github.actor }} - Log: ${{ inputs.logLevel }}"
 on: 
   workflow_dispatch:
