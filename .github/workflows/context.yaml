@@ -8,3 +8,9 @@ jobs:
     steps:
       - name: Print Data
         run: echo "${{ toJson(github) }}"
+      
+      - name: Print Job Context
+        run: echo "${{ toJson(job) }}"
+
+      - name: Print Runner Context
+        run: echo "${{ toJson(runner) }}"
