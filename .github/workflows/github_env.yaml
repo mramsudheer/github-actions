@@ -1,3 +1,6 @@
+# GITHUB_ENV is strictly isolated to the same job [1]. 
+# As soon as that specific job finishes, the file is destroyed, 
+# and any variables you saved inside it are lost forever.
 name: GitHub Environment
 on:
   workflow_dispatch:
