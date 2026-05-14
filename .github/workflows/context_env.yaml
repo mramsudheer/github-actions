@@ -1,0 +1,16 @@
+name: Environment Variables
+on:
+  workflow_dispatch:
+env:
+  project: "roboshop"
+  component: "catalogue"
+  environment: "dev"
+jobs:
+  environment_variables:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print env. variables data
+        run: |
+          echo "Project Name: $project"
+          echo "Component Name: $component"
+          echo "Environment Name: $environment"
