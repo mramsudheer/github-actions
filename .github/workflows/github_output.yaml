@@ -1,5 +1,8 @@
 # The $GITHUB_OUTPUT environment file is used to pass data and variables from 
-#one step to another within the same job
+# one job to another job. 
+# But can be used to pass one step to another within the same job (NOT RECOMMENDED)
+
+# This example is for to pass one step to another within the same job
 
 name: Github Output
 on:

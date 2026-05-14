@@ -1,0 +1,26 @@
+# The $GITHUB_OUTPUT environment file is used to pass data and variables from 
+# one job to another job. 
+# But can be used to pass one step to another within the same job (NOT RECOMMENDED)
+
+# This example is for to pass one job to another job
+#outputs session, and id are mandetory
+
+name: GitHub_Job
+on:
+  workflow_dispatch:
+jobs:
+  job_one:
+    runs-on: ubuntu-latest
+    outputs:
+      Image_Name: ${{ steps.step1.outputs.image-name }}
+    steps:
+      - id: step1
+        run: echo "image-name=Catalogue" >> $GITHUB_OUTPUT
+        
+  job_two:
+    runs-on: ubuntu-latest
+    needs: job_one
+    steps:
+      - name: Values From Prev. Job
+        run: | 
+          echo "Fetched: ${{ needs.job_one.outputs.Image_Name }}"
