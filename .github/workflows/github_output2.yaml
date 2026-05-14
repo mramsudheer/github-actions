@@ -5,7 +5,7 @@
 # This example is for to pass one job to another job
 #outputs session, and id are mandetory
 
-name: GitHub_Job
+name: Github Output2
 on:
   workflow_dispatch:
 jobs:
