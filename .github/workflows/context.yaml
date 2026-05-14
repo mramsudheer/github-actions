@@ -1,4 +1,4 @@
-name: Show the Context Data
+name: Context Data
 # run-name: "Manual Run by @${{ github.actor }}
 on:
   workflow_dispatch:
@@ -6,11 +6,11 @@ jobs:
   GitHub_ContextData:
     runs-on: ubuntu-latest
     steps:
-      - name: Print Data
+      - name: Print GitHub Context Data
         run: echo "${{ toJson(github) }}"
       
-      - name: Print Job Context
+      - name: Print Job Context Data
         run: echo "${{ toJson(job) }}"
 
-      - name: Print Runner Context
+      - name: Print Runner Context Data
         run: echo "${{ toJson(runner) }}"
