@@ -1,0 +1,10 @@
+name: Show the Context Data
+# run-name: "Manual Run by @${{ github.actor }}
+on:
+  workflow_dispatch:
+jobs:
+  GitHub_ContextData:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Data
+        run: echo "{{ toJson(github) }}"
