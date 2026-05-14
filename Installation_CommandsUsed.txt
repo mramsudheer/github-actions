@@ -1,4 +1,5 @@
 TO CREATE ORGANIZATION
+========================
 git url @mramsudheer-> settings(user navigation menu-on top right side) -> Organizations -> New Organization -> Create free organization
 	Name: mramsudheer-actions
 	Contact email:
@@ -6,6 +7,7 @@ git url @mramsudheer-> settings(user navigation menu-on top right side) -> Organ
 	skip this setup
 
 TO CREATE SECRETS
+====================
 git url -> settings -> Secrets and variables -> Actions -> Actions secrets and variables -> secrets
 	Repository secrets -> New repository secret
 			Name : DB_USER
@@ -13,3 +15,120 @@ git url -> settings -> Secrets and variables -> Actions -> Actions secrets and v
 			Repository secrets -> New repository secret
 			Name : DB_PASSWORD
 			secret: admin123
+
+CREATE A SECURITY GROUP WITH NAME Runner
+====================================
+	EKS control plane sg with 443
+	SSH 22 0.0.0.0/0
+
+CREATE Runner.sh to install required softwares
+=============================================
+	1. Increase disk space
+			growpart /dev/nvme0n1 4
+			lvextend -L +10G /dev/mapper/RootVG-rootVol
+			lvextend -L +10G /dev/mapper/RootVG-homeVol
+			lvextend -L +10G /dev/mapper/RootVG-varVol
+
+			xfs_growfs /var
+			xfs_growfs /home
+			xfs_growfs /
+	2. Install java & maven
+			sudo dnf install fontconfig java-21-openjdk -y
+			sudo dnf install maven -y
+	3. Install Nodejs
+			sudo dnf module enable nodejs:20 -y
+			sudo dnf install nodejs -y
+	4. Install python3
+			sudo dnf install python3 gcc python3-devel -y
+	5. Install Docker
+			sudo dnf -y install dnf-plugins-core
+			sudo dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
+			sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+			sudo systemctl start docker
+			sudo systemctl enable docker
+			sudo usermod -aG docker ec2-user
+	6. Install kubectl
+			sudo curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.35.2/2026-02-27/bin/linux/amd64/kubectl
+			sudo chmod +x ./kubectl
+			sudo cp kubectl /usr/local/bin/kubectl	
+	7. Install kubens (part of kubectx)
+			sudo curl -sLo /usr/local/bin/kubens https://raw.githubusercontent.com/ahmetb/kubectx/master/kubens
+			sudo chmod +x /usr/local/bin/kubens
+	8. Install k9s
+			sudo curl -sLO "https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_amd64.tar.gz"
+			sudo tar -xzf k9s_Linux_amd64.tar.gz -C /tmp && rm k9s_Linux_amd64.tar.gz
+			sudo install -m 0755 /tmp/k9s /usr/local/bin && rm /tmp/k9s
+	9. Install Hrlm
+			sudo curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+			sudo chmod 700 get_helm.sh
+			sudo ./get_helm.sh
+
+			sudo curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.70.0
+	10. Install Perl
+			sudo dnf install -y perl
+Create Runner
+=======================
+git url @mramsudheer->settings(user navigation menu-on top right side) -> Organizations
+	-> Settings -> Actions -> Runners -> New Runner -> Self hosted runner
+	Linux
+	x64
+Then it will show the commands. 
+Now create the EC2 instance and run the abv commands to connect Runner to connect with GitHub Actions
+(Run ./config.sh.....under ec2-user)
+The last command in ./run.sh. But don't use this, we use runner.service, which is easy with systemctl to run
+Enter the name of runner:<press Enter for default>
+Enter any additional labels:<press Enter for default>
+Enter the name of work folder:<press Enter for default>
+
+NOTE: THE ABOVE WILL CREATE THE SELF-HOSTED AGENT. NOW WE CAN USE 'runs-on: self-hosted' 
+
+sudo vi /etc/systemd/system/runner.serivce
+[Unit]
+Description=GitHub Actions Runner
+After=network.target
+
+[Service]
+Type=simple
+User=ec2-user
+WorkingDirectory=/home/ec2-user/actions-runner
+ExecStart=/home/ec2-user/actions-runner/run.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+***************************************************************************
+sudo systemctl enable runner --now
+sudo systemctl status runner
+////////////////////////////////////////////////////////////////////////////////
+sudo chcon system_u:object_r:bin_t:s0 /home/actions-user/run.sh
+sudo chcon system_u:object_r:bin_t:s0 /home/actions-user/config.sh
+
+sudo systemctl daemon-reload
+sudo systemctl restart runner
+sudo vi /etc/systemd/system/runner.service
+
+Look inside the file for the [Service] section. Change the paths to point exactly to /home/actions-user/ instead of ec2-user
+[Service]
+WorkingDirectory=/home/actions-user
+ExecStart=/home/actions-user/run.sh
+
+sudo systemctl daemon-reload
+sudo systemctl restart runner
+sudo systemctl status runner
+///////////////////////////////////////////////////////////////////////////////
+Git URL(github-actions) -> Settings -> General -> Allow all actions and reuable workflows
+
+Now got Git url -> Organizations -> settings -> Access -> Runners (You will c the runner is connected)
+
+Need to change the permissions:
+Git url -> Organizations -> settings -> Access -> Runner Groups
+	Default -> Allow public repositories(checkbox)
+
+================================================================================
+Now onwards instead of 
+	runs-on: ubuntu-latest # Github hosted runners
+	runs-on: self-hosted # 'self-hosted' is the label name given abv (Enter any additional labels:<press Enter for default>
+)
+
+To run the workflow
+Git URL -> Actions ->

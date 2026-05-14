@@ -8,7 +8,7 @@ jobs:
     steps:
       - name: Print GitHub Context Data
         run: echo "${{ toJson(github) }}"
-      
+      # The below job status and runner info will help us in controlling the pipelines
       - name: Print Job Context Data
         run: echo "${{ toJson(job) }}"
 

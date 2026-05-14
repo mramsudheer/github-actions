@@ -1,6 +1,9 @@
 # GITHUB_ENV is strictly isolated to the same job [1]. 
 # As soon as that specific job finishes, the file is destroyed, 
 # and any variables you saved inside it are lost forever.
+
+ # $GITHUB_ENV is not useful for cross jobs.
+# $GITHUB_ENV is only for within the same job, but can be used in diff. steps in the same job
 name: GitHub Environment
 on:
   workflow_dispatch:

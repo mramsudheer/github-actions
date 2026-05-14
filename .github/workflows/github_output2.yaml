@@ -5,6 +5,14 @@
 # This example is for to pass one job to another job
 #outputs session, and id are mandetory
 
+# Assume you have two jobs, 
+# and if you want to access the variables declared in one job 
+# in another job then we have to use$GITHUB_OUTPUT
+# To use $GITHUB_OUTPUT, we have to declare outputs: section
+
+# if we are using needs, then only github runs 
+# the jobs in sequential or else it will run in parallel.
+
 name: Github Output2
 on:
   workflow_dispatch:
