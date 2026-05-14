@@ -1,0 +1,21 @@
+# The $GITHUB_OUTPUT environment file is used to pass data and variables from 
+#one step to another within the same job
+
+name: Github Output
+on:
+  workflow_dispatch:
+jobs:
+  GitHub_Output:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Image tag
+        id: tag # id is mandatory to access the output of this step in later steps
+        run: |
+          echo "Version=1.0.0" >> $GITHUB_OUTPUT
+          echo "Image-name=catalogue" >> $GITHUB_OUTPUT
+
+      - name: Print Prev. Step Outputs
+        run: |
+          echo "Image Name= ${{ steps.tag.outputs.Image-name }}"
+          echo "Version= ${{ steps.tag.outputs.Version }}"
+
