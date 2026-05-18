@@ -73,7 +73,7 @@ git url @mramsudheer->settings(user navigation menu-on top right side) -> Organi
 	Linux
 	x64
 Then it will show the commands. 
-Now create the EC2 instance and run the abv commands to connect Runner to connect with GitHub Actions
+Now create the EC2 instance and run the abv commands under ec2-user to connect Runner to connect with GitHub Actions
 (Run ./config.sh.....under ec2-user)
 The last command in ./run.sh. But don't use this, we use runner.service, which is easy with systemctl to run
 Enter the name of runner:<press Enter for default>
@@ -116,6 +116,11 @@ sudo systemctl daemon-reload
 sudo systemctl restart runner
 sudo systemctl status runner
 ///////////////////////////////////////////////////////////////////////////////
+
+TO DISCONNECT AND CONNECT BACK THE AGENT/RUNNER
+------------------------------------------------
+./config.sh --url remove https://github.com/mramsudheer-actions --token B5V4J6CZCOTKJ4KU4OJY4SDKAXPHU
+
 Git URL(github-actions) -> Settings -> General -> Allow all actions and reuable workflows
 
 Now got Git url -> Organizations -> settings -> Access -> Runners (You will c the runner is connected)
